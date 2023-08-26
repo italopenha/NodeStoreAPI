@@ -4,6 +4,9 @@ const bodyParser = require('body-parser');
 const app = express();
 const router = express.Router();
 
+// Carrega os models
+const Product = require('./models/product');
+
 // Carrega as rotas
 const indexRoute = require('./routes/index-route');
 const productRoute = require('./routes/product-route')
