@@ -20,7 +20,8 @@ exports.post = async (req, res, next) => {
         await repository.create({
             name: req.body.name,
             email: req.body.email,
-            password: md5(req.body.password + global.SALT_KEY)
+            password: md5(req.body.password + global.SALT_KEY),
+            roles: ["user"]
         });
         res.status(201).send({
             message: 'Cliente cadastrado com sucesso!'
@@ -49,14 +50,16 @@ exports.authenticate = async (req, res, next) => {
         const token = await authService.generateToken({
             id: customer._id,
             email: customer.email,
-            name: customer.name
+            name: customer.name,
+            roles: customer.roles
         });
 
         res.status(201).send({
             token: token,
             data: {
                 email: customer.email,
-                name: customer.name
+                name: customer.name,
+                roles: customer.roles
             }
         });
     } catch (e) {
@@ -83,14 +86,16 @@ exports.refreshToken = async (req, res, next) => {
         const tokenData = await authService.generateToken({
             id: customer._id,
             email: customer.email,
-            name: customer.name
+            name: customer.name,
+            roles: customer.roles
         });
 
         res.status(201).send({
             token: token,
             data: {
                 email: customer.email,
-                name: customer.name
+                name: customer.name,
+                roles: customer.roles
             }
         });
     } catch (e) {
